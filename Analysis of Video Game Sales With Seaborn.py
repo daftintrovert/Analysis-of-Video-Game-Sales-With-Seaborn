@@ -1,14 +1,9 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[ ]:
 
 
 #made by Vishal Sharma(22.03.2019)
-
-
-# In[1]:
-
 
 import pandas as pd
 import numpy as np
@@ -17,39 +12,20 @@ import seaborn as sns
 sns.set(style = 'darkgrid')
 
 
-# In[3]:
-
-
 file = r'C:\Users\hp\Desktop\vgsales.csv'
 vg = pd.read_csv(file)
 vg.head()
 
-
-# In[4]:
-
-
 vg.info()
-
-
-# In[5]:
 
 
 vg.describe()
 
 
-# In[10]:
-
-
 vg.shape
 
 
-# In[12]:
-
-
 vg.isnull().sum()
-
-
-# In[14]:
 
 
 # marking pokemon games
@@ -57,20 +33,11 @@ vg["Pokemon"]=[True if each.startswith("Pokemon") else False for each in vg.Name
 vg1=vg[vg.Pokemon]#pokemon games' data
 
 
-# In[15]:
-
-
 vg1.head()
-
-
-# In[17]:
-
 
 best=vg1.nlargest(5,'Global_Sales')#best 5 pokemon games
 best
 
-
-# In[18]:
 
 
 sns.set(font_scale=1.5)
@@ -82,14 +49,7 @@ plt.ylabel('Millions')
 plt.title('Best 5 Pokemon Games Sales')
 
 
-# In[20]:
-
-
 len(vg["Publisher"].unique())
-
-
-# In[22]:
-
 
 rpgames=vg[vg["Genre"]=="Role-Playing"]#only role playing game data
 publisher=list(rpgames["Publisher"].unique())# and its publishers
@@ -105,14 +65,10 @@ for i in publisher:
         rpg_publishers.append(i)#Maybe no need
 
 
-# In[23]:
-
 
 rpgData=pd.DataFrame({"Publisher":rpg_publishers, "Sales":rpg_sales})#converting dataframe
 sorting=rpgData.nlargest(30,'Sales')#selecting best 30 rpg sales ratio
 
-
-# In[24]:
 
 
 plt.figure(figsize=(15,10))
@@ -121,9 +77,6 @@ plt.xticks(rotation= 90)
 plt.xlabel('RPG Publisher')
 plt.ylabel('Millions')
 plt.title('Mean of RPG Sales in The World')
-
-
-# In[25]:
 
 
 #Game Sales for platform
@@ -147,19 +100,10 @@ for i in platforms:
 valuablePlatform=pd.DataFrame({"Platform":platforms, "NA":na, "UA":ua, "JP":jp, "Other":other, "Global":glbl})
 
 
-# In[26]:
-
-
 valuablePlatform.head()
 
 
-# In[27]:
-
-
 valuablePlatform.tail()
-
-
-# In[28]:
 
 
 f, ax = plt.subplots(figsize=(15, 15))
@@ -184,21 +128,10 @@ ax.set(xlim=(0, 1300), ylabel="Platforms", xlabel="Million")
 sns.despine(left=True, bottom=True)
 
 
-# In[30]:
-
-
 sns.pairplot(valuablePlatform,diag_kind="kde",kind="reg",palette="husl")
-
-
-# In[32]:
-
 
 dataYear=vg["Year"].dropna().unique()#cleaning data
 dataYear.sort()
-
-
-# In[34]:
-
 
 na=[]
 eu=[]
@@ -219,10 +152,6 @@ yearSales=pd.DataFrame({"Year":dataYear, "NA":na, "EU":eu, "JP":jp, "Other":othe
 yearSales["Year"].astype("int64")
 yearSales.info()
 
-
-# In[39]:
-
-
 yearSales["Year"]=yearSales.Year.astype("int64")
 
 f,ax1 = plt.subplots(figsize =(20,10))
@@ -240,37 +169,23 @@ plt.ylabel('Sales',fontsize = 20,color='black')
 plt.title('ANNUAL SALES',fontsize = 20,color='black')
 plt.grid()
 
-
-# In[42]:
-
-
 g=sns.jointplot(yearSales.JP,yearSales.EU, kind="kde",height=8)
 plt.savefig("graph.png")
 plt.show()
-
-
-# In[43]:
-
 
 sns.lmplot(x="NA",y="EU", data=yearSales)
 plt.show()
 
 
-# In[44]:
-
 
 sns.kdeplot(yearSales.JP,yearSales.NA,shade=True,cut=5)
 
 
-# In[48]:
 
 
 f,ax2=plt.subplots(figsize=(13,10))
 sns.heatmap(yearSales.corr(),annot=True,linecolor="green", linewidths=.5,center=1.2, fmt=".1f",ax=ax2,cmap = 'inferno',alpha = 0.4)
 plt.show()
-
-
-# In[52]:
 
 
 sales=[sum(yearSales["NA"]),sum(yearSales["EU"]),sum(yearSales["JP"]),sum(yearSales["Other"])]
@@ -282,17 +197,10 @@ plt.figure(figsize=(7,7))
 plt.pie(sales, explode=explode, labels=labels, colors=colors, autopct="%1.1f%%")
 plt.title("Global Sales", color="blue",fontsize=18)
 
-
-# In[54]:
-
-
 f,ax2=plt.subplots(figsize=(15,7))
 sns.violinplot(x="Genre",y="Year", data=vg, inner="points", scale="width")
 plt.xticks(rotation=90)
 plt.show()
-
-
-# In[57]:
 
 
 f,ax2=plt.subplots(figsize=(10,7))
@@ -301,17 +209,10 @@ sns.boxplot(x="Genre",y="Year",data=data_nintendo,palette="magma")
 plt.xticks(rotation=90)
 
 
-# In[58]:
-
-
 sns.countplot(data_nintendo.Genre)
 plt.xticks(rotation=90)
 plt.ylabel("Count of Games")
 plt.title("Genres of Nintendo Games",color="black",fontsize=15)
-
-
-# In[ ]:
-
 
 
 
